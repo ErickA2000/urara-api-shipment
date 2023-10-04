@@ -4,7 +4,11 @@
   "description": "microservicio para envios",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node build/server.js",
+    "dev": "nodemon build/server.js",
+    "build:watch": "tsc -p tsconfig.json && (concurrently \"tsc -p tsconfig.json -w\" \"tsc-alias -p tsconfig.json -w\")",
+    "build": "tsc && tsc-alias",
+    "start:build": "tsc && tsc-alias && node build/server.js"
   },
   "repository": {
     "type": "git",

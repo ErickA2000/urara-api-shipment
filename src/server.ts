@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import { initialModels } from "@Libs/initialSetup";
+initialModels();
+
 import App from "app";
 
 
