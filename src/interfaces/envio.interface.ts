@@ -19,3 +19,9 @@ export interface IenvioAdd {
     fechaEntrega?: Date,
     montoEnvio?: number
 }
+
+export interface ResponseAddShipment {
+    success: boolean;
+    data?: Ienvio;
+    message?: string;
+}
