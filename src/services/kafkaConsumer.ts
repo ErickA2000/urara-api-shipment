@@ -1,6 +1,6 @@
 import createShipment from '@Helpers/createShipment';
 import { MessageProcessor } from '@Interfaces/kafka.interface';
-import { brokers_kafka, clientId_payment_kafka, topic_payment_kafka } from 'config';
+import { brokers_kafka, clientId_payment_kafka, groupId_payment_kafka, topic_payment_kafka } from 'config';
 import { Consumer, ConsumerSubscribeTopics, EachBatchPayload, Kafka, EachMessagePayload } from 'kafkajs';
 
 export default class ExampleConsumer {
@@ -31,7 +31,7 @@ export default class ExampleConsumer {
                     let dataMessage: MessageProcessor = JSON.parse(`${message.value}`);
 
                     //creando envio
-                    await createShipment( dataMessage.idCliente );
+                    await createShipment( dataMessage.idCliente, dataMessage.idCompra );
                     
                 }
             })
@@ -72,7 +72,7 @@ export default class ExampleConsumer {
             clientId: clientId_payment_kafka,
             brokers: brokers_kafka
         })
-        const consumer = kafka.consumer({ groupId: clientId_payment_kafka })
+        const consumer = kafka.consumer({ groupId: groupId_payment_kafka })
         return consumer
     }
 }
