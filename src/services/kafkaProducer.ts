@@ -1,7 +1,7 @@
 import { Kafka, Message, Producer, ProducerBatch, TopicMessages } from 'kafkajs'
-import { brokers_kafka, clientId_shipment_kafka, topic_shipment_kafka } from 'config'
-import { CustomMessageFormat } from '@Interfaces/kafka.interface'
-
+import { brokers_kafka, clientId_shipment_kafka, topic_shipment_kafka, aws } from 'config'
+import { CustomMessageFormat } from '@Interfaces/kafka.interface';
+import { createMechanism } from '@jm18457/kafkajs-msk-iam-authentication-mechanism';
 
 export default class ProducerFactory {
     private producer: Producer
@@ -47,6 +47,13 @@ export default class ProducerFactory {
         const kafka = new Kafka({
             clientId: clientId_shipment_kafka,
             brokers: brokers_kafka,
+            authenticationTimeout: 3000,
+            connectionTimeout: 5000,
+            ssl: true,
+            sasl: createMechanism({ region: aws.region, credentials: {
+                accessKeyId: aws.accessKey,
+                secretAccessKey: aws.secrectAccessKey
+            } })
         })
 
         return kafka.producer()
