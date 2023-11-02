@@ -1,8 +1,7 @@
 import createShipment from '@Helpers/createShipment';
 import { MessageProcessor } from '@Interfaces/kafka.interface';
-import { brokers_kafka, clientId_payment_kafka, groupId_payment_kafka, topic_payment_kafka, aws } from 'config';
+import { brokers_kafka, clientId_payment_kafka, groupId_payment_kafka, topic_payment_kafka } from 'config';
 import { Consumer, ConsumerSubscribeTopics, EachBatchPayload, Kafka, EachMessagePayload } from 'kafkajs';
-import { createMechanism } from '@jm18457/kafkajs-msk-iam-authentication-mechanism';
 
 export default class ExampleConsumer {
     private kafkaConsumer: Consumer
@@ -73,12 +72,7 @@ export default class ExampleConsumer {
             clientId: clientId_payment_kafka,
             brokers: brokers_kafka,
             authenticationTimeout: 3000,
-            connectionTimeout: 5000,
-            ssl: true,
-            sasl: createMechanism({ region: aws.region, credentials: {
-                accessKeyId: aws.accessKey,
-                secretAccessKey: aws.secrectAccessKey
-            } })
+            connectionTimeout: 5000
         })
         const consumer = kafka.consumer({ groupId: groupId_payment_kafka })
         return consumer
